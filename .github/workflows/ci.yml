@@ -1,4 +1,4 @@
-name: Docker CI/CD Pipeline
+name: Docker CI/CD with Tests
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-and-run:
+  docker-test-and-run:
     runs-on: ubuntu-latest
 
     steps:
@@ -15,6 +15,9 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t fastapi-app .
+
+      - name: Run tests inside Docker
+        run: docker run fastapi-app pytest
 
       - name: Run Docker container
         run: docker run -d -p 8000:8000 fastapi-app
